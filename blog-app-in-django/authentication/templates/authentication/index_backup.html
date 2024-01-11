@@ -1,0 +1,18 @@
+{% extends 'authentication/base.html' %}
+
+{% block content %}
+
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h2 class="fw-light">Python Django Authentication App</h2>
+        <p class="lead text-muted">This is Python Django Authentication App. I'm looking to add more features like make it a blogging site where bloggers sign up, confirm their emails, log in back after admin approval and post their articles. Bloggers would view only posts related to them, can accept or reject comments to their post articles. And much more..</p>
+        <p>
+          <a href="{% url 'registration' %}" class="btn btn-primary my-2">Register</a>
+          <a href="{% url 'login' %}" class="btn btn-secondary my-2">Login</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}

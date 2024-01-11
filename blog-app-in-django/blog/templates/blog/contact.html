@@ -1,0 +1,50 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}
+Contact Us
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 mb-10">
+    <h1 class="display-4">Contact Us</h1>
+    <p class="lead">Get in touch with us for any inquiries or assistance. We're here to help!</p>
+
+    <div class="row mt-4">
+        <div class="col-lg-6">
+            <h2 class="mb-4">Contact Information</h2>
+            <p><strong>Address:</strong> 123 Xyz Street, XYZ City, Country</p>
+            <p><strong>Email:</strong> info@[companyname].com</p>
+            <p><strong>Phone:</strong> +(237) 670709080</p>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-lg-6">
+            <h2 class="mb-4">Send Us a Message</h2>
+            {% if messages %}
+            <div class="alert alert-success">
+                {% for message in messages %}
+                <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    {{ form.name }}
+                </div>
+                <div class="mb-3">
+                    {{ form.email }}
+                </div>
+                <div class="mb-3">
+                    {{ form.message }}
+                </div>
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

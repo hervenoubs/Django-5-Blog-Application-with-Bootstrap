@@ -1,0 +1,122 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block title %}
+{{ post.post_title }}
+{% endblock %}
+
+{% block content %}
+
+<div class="row g-5">
+    <div class="col-md-8">
+        <article class="blog-post">
+            <h2 class="display-5 link-body-emphasis mb-1">{{ post.post_title }}</h2>
+            <img src="{{ post.post_banner.url  }}" class="img-fluid mb-5" />
+            <p class="blog-post-meta">{{ post.created_on.date }} by <a href="#">Unknown</a></p>
+
+            <p>{{ post.post_content | linebreaks }}</p>
+
+        </article>
+
+        <div class="container mt-5">
+            <h3 class="mb-4">Leave a comment:</h3>
+            {% if messages %}
+            <div class="alert alert-success">
+                {% for message in messages %}
+                <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    {{ form.visitor_name }}
+                </div>
+                <div class="mb-3">
+                    {{ form.visitor_email }}
+                </div>
+                <div class="mb-3">
+                    {{ form.visitor_comment }}
+                </div>
+                <button type="submit" class="btn btn-warning">Submit Comment</button>
+
+            </form>
+        </div>
+
+        <div class="container mt-5">
+            <h3 class="mb-4">Comemnt({{ num_comments }}):</h3>
+
+            {% for comment in comments %}
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-3">
+                        <img src="{% static '/images/comment/comment-avatar-picture.png' %}"
+                            class="img-fluid rounded-start" alt="Default Comment Avatar">
+                    </div>
+                    <div class="col-md-9">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ comment.visitor_name }}</h5>
+                            <p class="card-text">{{ comment.visitor_comment | linebreaks }}</p>
+                            <p class="card-text"><small class="text-body-secondary">Posted on {{ comment.created_on.date }}</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% empty %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <p>There's no comment at the moment. Be the first to comment.</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+        <div class="position-sticky" style="top: 2rem;">
+            <div class="p-4 mb-3 bg-body-tertiary rounded">
+                <h4 class="fst-italic">About</h4>
+                <p class="mb-0">Fruits & Vegatables blog all about Fruits & Vegatables.</p>
+            </div>
+
+            <div>
+                <h4 class="fst-italic">Recent posts</h4>
+                <ul class="list-unstyled">
+                    {% for ran_post in random_posts %}
+                    <li>
+                        <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top"
+                            href="{% url 'blog_detail' ran_post.pk %}">
+                            <img src="{{ ran_post.post_banner.url  }}" width="100px" class="img-fluid" />
+                            <div class="col-lg-8">
+                                <h6 class="mb-0">{{ ran_post.post_title }}</h6>
+                                <small class="text-body-secondary">{{ ran_post.created_on.date }}</small>
+                            </div>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="p-4">
+                <h4 class="fst-italic">Recipes</h4>
+                <ol class="list-unstyled mb-0">
+                    {% for category in categories %}
+                    <li><a href="{% url 'blog_category' category.category_name %}">{{ category.category_name }}</a></li>
+                    {% endfor %}
+                </ol>
+            </div>
+
+            <div class="p-4">
+                <h4 class="fst-italic">F & V</h4>
+                <ol class="list-unstyled">
+                    <li><a href="https://github.com/hervenoubs/">GitHub</a></li>
+                    <li><a href="https://linkedin.com/in/tchokoteherve/">LinkedIn</a></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
