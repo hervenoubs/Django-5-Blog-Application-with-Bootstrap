@@ -29,7 +29,7 @@ Before running the application, make sure you have the following installed:
 
    ```bash
    git clone git@github.com:hervenoubs/Django-5-Blog-Application-with-Bootstrap.git
-   cd your-blog-app
+   cd blog-app-in-django
 2. pip install -r requirements.txt
 3. python manage.py migrate
 4. python manage.py createsuperuser
