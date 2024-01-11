@@ -28,7 +28,7 @@ Before running the application, make sure you have the following installed:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/your-blog-app.git
+   git clone git@github.com:hervenoubs/Django-5-Blog-Application-with-Bootstrap.git
    cd your-blog-app
 2. pip install -r requirements.txt
 3. python manage.py migrate
