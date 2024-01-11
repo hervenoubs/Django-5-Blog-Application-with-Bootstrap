@@ -4,6 +4,9 @@
 
 This is blog application developed using Python with Django 5 for the backend and Bootstrap for the front end. The application allows users to create, view, update, and delete blog posts and comments. Bloggers can create accounts, write articles and even approve and disapprove unwanted comments (This functionality is under development).
 
+![Screen Shot 2024-01-11 at 12 37 26 AM](https://github.com/hervenoubs/Django-5-Blog-Application-with-Bootstrap/assets/12233172/28342151-10a0-42cc-a22c-7856eb02fc85)
+
+
 ## Features for now
 
 - User authentication (Sign up, Log in, Log out)
