@@ -14,6 +14,8 @@ This is blog application developed using Python with Django 5 for the backend an
 - View a list of all blog posts with their number of comments
 - View each blog post including the comment section and sidebar at the right to see blog categories and recent posts
 - Blog posts category listings 
+- Users can subscribe to the blog 
+- Users can search blog articles 
 - About page
 - Contact Us page with its active contact form
 - Responsive design using Bootstrap
