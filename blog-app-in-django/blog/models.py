@@ -49,3 +49,11 @@ class Contacts(models.Model):
 
     def __str__(self):
         return self.name
+
+class Newsletter(models.Model):
+    firstname = models.CharField(max_length=155)
+    email = models.EmailField(max_length=255, unique=True)
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.email

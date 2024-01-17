@@ -4,7 +4,7 @@
 
 <!-- Get the last post from db -->
 {% with posts|first as postobj %}
-<div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary">
+<div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-main-color">
     <div class="col-lg-6 px-0">
         <h1 class="display-6 fst-italic">{{ postobj.post_title }}</h1>
         <p class="lead my-3">{{ postobj.post_content | slice:':100' }}..</p>
@@ -16,8 +16,8 @@
 <!-- Get all posts from db -->
 <div class="row mb-2">
     {% for post in posts %}
-    <div class="col-md-6">
-        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-350 position-relative">
+    <div class="col-md-6 ">
+        <div class="row bg-post g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-350 position-relative">
             <div class="col p-4 d-flex flex-column position-static">
                 <strong class="d-inline-block mb-1 text-primary-emphasis">
                     {% for category in post.categories.all %}

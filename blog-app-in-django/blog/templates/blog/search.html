@@ -1,0 +1,141 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block title %}
+Search
+{% endblock %}
+
+{% block content %}
+
+<div class="row g-5">
+    <div class="col-md-8">
+        <div class="py-5">
+            <h2>Search for
+                {% if query %}
+                    <i>{{ query }}</i>
+                {% else %}
+                    <i>Unknown</i>
+                {% endif %}
+            </h2>
+            <p>About<b> {{ count }}</b> results</p>
+        </div>
+
+        {% if results %}
+            {% for post in results %}
+            <div class="">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-350 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
+                        <strong class="d-inline-block mb-1 text-primary-emphasis">
+                            {% for category in post.categories.all %}
+                                <a href="{% url 'blog_category' category.category_name %}">
+                                    {{ category.category_name }}
+                                </a>
+                            {% endfor %}
+                        </strong>
+                        <h5 class="mb-0">{{ post.post_title }}</h5>
+                        <div class="mb-1 text-body-secondary">{{ post.created_on | date:'D d M Y' }}</div>
+                        <p class="card-text mb-auto">{{ post.post_content | slice:':75' }}...</p>
+                        
+                        <a href="{% url 'blog_detail' post.pk %}" class="icon-link gap-1 icon-link-hover stretched-link">
+                            {% if post.comment_count > 0 %}
+                                <p>{{ post.comment_count }} comment(s)</p>
+                            {% else %}
+                                <p>No comments yet.</p>
+                            {% endif %} 
+                            <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    <div class="col-auto d-none d-lg-block">
+                        <img src="{{ post.post_banner.url  }}" width="180px" class="img-fluid" />
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    {% if results.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1{% if query %}&post_title={{ query }}{% endif %}" aria-label="First">
+                                <span aria-hidden="true">&laquo;&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ results.previous_page_number }}{% if query %}&post_title={{ query }}{% endif %}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+    
+                    <li class="page-item disabled">
+                        <span class="page-link">Page {{ results.number }} of {{ results.paginator.num_pages }}</span>
+                    </li>
+    
+                    {% if results.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ results.next_page_number }}{% if query %}&post_title={{ query }}{% endif %}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ results.paginator.num_pages }}{% if query %}&post_title={{ query }}{% endif %}" aria-label="Last">
+                                <span aria-hidden="true">&raquo;&raquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+
+        {% else %}
+            <p>
+                <b>No results found.</b>
+            </p>
+        {% endif %}
+
+    </div>
+
+    <div class="col-md-4">
+        <div class="position-sticky" style="top: 2rem;">
+            <div class="p-4 mb-3 bg-body-tertiary rounded">
+                <h4 class="fst-italic">About</h4>
+                <p class="mb-0">Fruits & Vegatables blog all about Fruits & Vegatables.</p>
+            </div>
+
+            <div>
+                <h4 class="fst-italic">Recent posts</h4>
+                <ul class="list-unstyled">
+                    {% for ran_post in random_posts %}
+                    <li>
+                        <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top"
+                            href="{% url 'blog_detail' ran_post.pk %}">
+                            <img src="{{ ran_post.post_banner.url  }}" width="100px" class="img-fluid" />
+                            <div class="col-lg-8">
+                                <h6 class="mb-0">{{ ran_post.post_title }}</h6>
+                                <small class="text-body-secondary">{{ ran_post.created_on.date }}</small>
+                            </div>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="p-4">
+                <h4 class="fst-italic">Recipes</h4>
+                <ol class="list-unstyled mb-0">
+                    {% for category in categories %}
+                    <li><a href="{% url 'blog_category' category.category_name %}">{{ category.category_name }}</a></li>
+                    {% endfor %}
+                </ol>
+            </div>
+
+            <div class="p-4">
+                <h4 class="fst-italic">F & V</h4>
+                <ol class="list-unstyled">
+                    <li><a href="https://github.com/hervenoubs/">GitHub</a></li>
+                    <li><a href="https://linkedin.com/in/tchokoteherve/">LinkedIn</a></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

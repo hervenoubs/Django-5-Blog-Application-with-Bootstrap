@@ -17,7 +17,7 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/blog/">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
-    
+
     {% bootstrap_css %}
     <link rel="stylesheet" href="{% static '/css/bootstrap.min.css' %}">
 
@@ -98,6 +98,18 @@
         .bd-mode-toggle .dropdown-menu .active .bi {
             display: block !important;
         }
+
+        .bg-main-color{
+            background-color: rgba(147, 197, 249, 0.2);
+        }
+
+        .ship{
+            background-color: #FFFFFF;
+        }
+
+        .bg-post{
+            background-color: #FFFFFF;
+        }
     </style>
 
 
@@ -109,21 +121,80 @@
 
 <body>
 
-    <div class="container">
-        {% include 'blog/header.html' with categories=categories %}
+    <div class="ship">
+        <div class="container">
+            {% include 'blog/header.html' with categories=categories %}
+        </div>
+
+        <main class="container">
+            {% block content %}
+            {% endblock %}
+        </main>
+
+        <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+            {% include 'blog/footer.html' %}
+        </footer>
     </div>
 
-    <main class="container">
-        {% block content %}
-        {% endblock %}
-    </main>
+    <!-- Subscriber Modal -->
+    <div class="modal fade" id="newsletterModal" tabindex="-1" role="dialog" aria-labelledby="newsletterModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newsletterModalLabel">Subscribe to Newsletter</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    
+                </div>
+                <div class="modal-body">
+                    <div id="msg"></div>
+                    <form id="newsletterForm" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            {{ nlform.firstname }}
+                        </div>
+                        <div class="mb-3">
+                            {{ nlform.email }}
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
-        {% include 'blog/footer.html' %}
-    </footer>
+    <!-- Search Modal -->
+    <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="searchModalLabel">Search an article in the blog</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    
+                </div>
+                <div class="modal-body">
+                    <div id="srchmsg"></div>
+                    <form id="searchForm" method="get" action="{% url 'search' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            {{ srchform.post_title }}
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     {% bootstrap_javascript %}
     <script src="{% static '/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="{% static '/js/blog/newsletter-ajaxscript.js' %}"></script>
 
 </body>
 

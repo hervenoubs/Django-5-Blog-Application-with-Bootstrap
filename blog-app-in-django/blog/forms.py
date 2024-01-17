@@ -51,3 +51,30 @@ class ContactForm(forms.Form):
         ),
         label = "Your comment",
     )
+
+class NewsletterForm(forms.Form):
+    firstname = forms.CharField(
+        required = True,
+        max_length=155,
+        widget = forms.TextInput(
+            attrs={"class": "form-control", "placeholder": "Firstname"}
+        ),
+        label="Firstname",
+    )
+
+    email = forms.EmailField(
+        required=True,
+        max_length=255,
+        widget=forms.EmailInput(
+            attrs={"class": "form-control", "placeholder": "Email address"}
+        ),
+        label = "Email address",
+    )
+
+class SearchForm(forms.Form):
+    post_title = forms.CharField(
+        required=True,
+        widget= forms.TextInput(
+            attrs={"class": "form-control", "placeholder": "Find an article"}
+        ),
+    )
