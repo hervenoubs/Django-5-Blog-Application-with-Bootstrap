@@ -1,0 +1,61 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}
+Edit article
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row my-5">
+        <div class="col-md-12 bg-white p-5 rounded">
+        <div class="pull-right">
+            <a class="btn btn-primary" href="{% url 'manage_posts' %}"><i class="fa fa-arrow-left"></i> Back to articles</a>
+        </div>
+        
+        <h2 class="mb-4">Edit article</h2>
+        
+        <form method="post" action="/update/{{ post.pk }}/" class="form" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if form.errors %}
+                <div class="error">
+                    <p>Please correct the errors below:</p>
+                    {{ form.errors }}
+                </div>
+            {% endif %}
+            <div class="mb-3">
+                <label for="post_title">Title:</label>
+                <input type="text" class="form-control" name="post_title" value="{{ post.post_title }}">
+            </div>
+            <div class="mb-3">
+                <label for="post_intro">Intro:</label>
+                <input type="text" class="form-control" name="post_intro" value="{{ post.post_intro }}">
+            </div>
+            <div class="mb-3">
+                <!-- Display related categories -->
+                <label for="categories">Categories:</label>
+                <select name="categories" class="form-control" multiple>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}" {% if category in post.categories.all %}selected{% endif %}>{{ category.category_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="post_title">Content:</label>
+                <textarea class="form-control" rows="6" name="post_content">{{ post.post_content }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="post_title">Banner:</label>
+                <input type="file" name="post_banner" class="form-control" />
+                <img src="{{ post.post_banner.url }}" width="64px" class="img-fluid" />
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+        </form>
+
+        </div>
+    </div>
+  </div>
+
+{% endblock %}

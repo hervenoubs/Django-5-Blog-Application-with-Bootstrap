@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse
 from .models import Post, Comments, Category, Contacts, Newsletter
@@ -26,7 +26,7 @@ def blog_index(request):
     else:
         nlform = NewsletterForm()
 
-    posts = Post.objects.annotate(num_comments=Count('comments'))
+    posts = Post.objects.filter(post_status=1).annotate(num_comments=Count('comments')).order_by('-created_on')
     categories = Category.objects.all()
     context = {
         "posts": posts,
@@ -38,7 +38,7 @@ def blog_index(request):
 
 def blog_category(request, category_name):
     category = Category.objects.get(category_name=category_name)
-    posts = Post.objects.filter(categories=category).order_by("-created_on")
+    posts = Post.objects.filter(categories=category, post_status=1).order_by("-created_on")
     categories = Category.objects.all()
     srchform = SearchForm()
     context = {
@@ -51,7 +51,7 @@ def blog_category(request, category_name):
     return render(request, "blog/category.html", context)
 
 def blog_detail(request, pk):
-    post = Post.objects.get(pk=pk)
+    post = get_object_or_404(Post, pk=pk, post_status=1)
 
     form = CommentForm()
     if request.method == "POST":
@@ -77,7 +77,7 @@ def blog_detail(request, pk):
     num_comments = comments.count()
 
     # get only the first 3 posts randomly for the sidebar posts
-    all_posts = list(Post.objects.all())
+    all_posts = list(Post.objects.filter(post_status=1))
     random.shuffle(all_posts)
     random_posts = all_posts[:3]
 
@@ -121,7 +121,7 @@ def contact(request):
 
             return redirect('contact')
         else:
-            return render(request, 'contact', {'form': form})
+            return render(request, 'blog/contact.html', {'form': form})
 
     context = {
         "categories": categories,

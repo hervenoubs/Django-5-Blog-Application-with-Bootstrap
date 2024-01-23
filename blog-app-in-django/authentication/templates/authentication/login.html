@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container">
     <div class="row my-5">
-        <div class="col-md-12 p-5 rounded bg-light">
+        <div class="col-md-12 p-5 rounded bg-white">
             <h2 class="mb-4">Login</h2>
             {% if error_message %}
                 <div class="alert alert-danger" role="alert"></div>
@@ -24,7 +24,8 @@
                 {% csrf_token %}
                 {{ form.as_p }}
                 <button class="btn btn-primary" type="submit">Login</button> |
-                <a href="{% url 'registration' %}">Register</a>
+                <a href="{% url 'registration' %}">Register</a> | 
+                <a href="{% url 'change-password' %}">Forgotten Password?</a>
             </form>
         </div>
     </div>

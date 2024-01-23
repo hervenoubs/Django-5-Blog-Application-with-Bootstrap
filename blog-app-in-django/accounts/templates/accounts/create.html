@@ -1,0 +1,44 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}
+Add an Article
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row my-5">
+        <div class="col-md-12 bg-white p-5 rounded">
+
+        <div class="pull-right">
+            <a class="btn btn-primary" href="{% url 'manage_posts' %}"><i class="fa fa-arrow-left"></i> Back to articles</a>
+        </div>
+        <h2 class="mb-4">Add an blog article</h2>
+        {% if messages %}
+        <div class="alert alert-success">
+            {% for message in messages %}
+            <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <form method="post" class="form" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for field in postForm %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="text-danger">{{ field.errors|join:", " }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <div class="text-center">
+                <button class="btn btn-primary text" type="submit">Add Post</button>
+            </div>
+        </form>
+
+        </div>
+    </div>
+  </div>
+
+{% endblock %}

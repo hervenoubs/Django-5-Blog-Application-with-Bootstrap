@@ -3,6 +3,7 @@
 {% block content %}
 
 <!-- Get the last post from db -->
+{% if posts %}
 {% with posts|first as postobj %}
 <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-main-color">
     <div class="col-lg-6 px-0">
@@ -12,6 +13,13 @@
     </div>
 </div>
 {% endwith %}
+{% else %}
+<div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-main-color">
+    <div class="col-lg-6 px-0">
+        <h1 class="display-6 fst-italic">No featured article at the moment!</h1>
+    </div>
+</div>
+{% endif %}
 
 <!-- Get all posts from db -->
 <div class="row mb-2">
@@ -37,6 +45,12 @@
             <div class="col-auto d-none d-lg-block">
                 <img src="{{ post.post_banner.url  }}" width="180px" class="img-fluid" />
             </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <p>No articles available at the moment!</p>
         </div>
     </div>
     {% endfor %}

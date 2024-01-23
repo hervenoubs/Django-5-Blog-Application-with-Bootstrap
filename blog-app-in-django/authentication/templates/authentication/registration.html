@@ -8,13 +8,13 @@ Register as a Blogger
 
 <div class="container">
     <div class="row my-5">
-        <div class="col-md-12 bg-light p-5 rounded">
+        <div class="col-md-12 bg-white p-5 rounded">
 
         <h2 class="mb-4">Register as a blogger</h2>
         <form method="post" action="{% url 'registration' %}" class="form">
             {% csrf_token %}
             {{ user_form.as_p }}
-            <button class="btn btn-primary type="submit">Register</button> |
+            <button class="btn btn-primary" type="submit">Register</button> |
             <a href="{% url 'login' %}">Login</a>
         </form>
 

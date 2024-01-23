@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'authentication',
     'bootstrap5',
     'blog',
+    'accounts',
 ]
 
 # Authentication prefix

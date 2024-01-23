@@ -1,4 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import User
+from autoslug import AutoSlugField
+from django.utils.text import slugify
 
 class Category(models.Model):
     category_name = models.CharField(max_length=70, unique=True)
@@ -14,9 +17,11 @@ class Category(models.Model):
 class Post(models.Model):
     post_title = models.CharField(max_length=255, unique=True)
     # category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, default=4)
     categories = models.ManyToManyField("Category", related_name="posts")
-    post_slug = models.SlugField(unique=True)
+    post_slug = AutoSlugField(populate_from='post_title', unique=True, editable=True)
     post_intro = models.TextField(default='')
+    post_status = models.BooleanField(default=False)
     post_content = models.TextField()
     post_banner = models.ImageField(upload_to='images')  
     created_on = models.DateTimeField(auto_now_add=True)
@@ -27,6 +32,11 @@ class Post(models.Model):
     
     def __str__(self):
         return self.post_title
+    
+    def save(self, *args, **kwargs):
+        # Generate the slug when saving the model
+        self.post_slug = slugify(self.post_title)
+        super().save(*args, **kwargs)
 
 class Comments(models.Model):
     visitor_name = models.CharField(max_length=60)
