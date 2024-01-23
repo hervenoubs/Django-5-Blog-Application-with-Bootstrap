@@ -42,6 +42,7 @@ Before running the application, make sure you have the following installed:
 
 Project Structure
 
+accounts/: Django app for managing bloggers actions like add/view/delete posts and moderate their comments.
 authentication/: Django app for signing up and logging in for bloggers.
 blog/: Django app for the blog functionality.
 static/: Contains static files (CSS, JavaScript).

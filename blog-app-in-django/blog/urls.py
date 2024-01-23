@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import blog_index, blog_detail, blog_category, about, contact, shop, search
 from authentication.views import user_registration, home, user_logout, user_login
-from accounts.views import edit_post, update_post, delete_post
+from accounts.views import edit_post, update_post, delete_post, post_comments, approve_post, disapprove_post
 
 urlpatterns = [
     path('', blog_index, name='blog_index'),
@@ -18,4 +18,7 @@ urlpatterns = [
     path('edit-post/<int:pk>/', edit_post, name='edit_post'),
     path('update/<int:pk>/', update_post, name='update_post'),
     path('delete/<int:pk>/', delete_post, name='delete_post'),
+    path('comments/', post_comments, name='post_comments'),
+    path('approve-comment/<int:pk>/', approve_post, name='approve_post'),
+    path('disapprove-comment/<int:pk>/', disapprove_post, name='disapprove_post'),
 ]

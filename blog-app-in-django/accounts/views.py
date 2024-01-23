@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseNotAllowed
-from blog.forms import WritePostForm, SearchForm, NewsletterForm
-from blog.models import Category, Post
+from blog.forms import WritePostForm, SearchForm, NewsletterForm, CommentForm
+from blog.models import Category, Post, Comments
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
@@ -105,3 +105,58 @@ def delete_post(request, pk):
 
     # If it's a GET request, return a method not allowed response
     return HttpResponseNotAllowed(['POST'])
+
+@login_required
+def post_comments(request):
+    # Retrieve the current blogger's ID
+    author_id = request.user.id
+    disappr_comments = Comments.objects.filter(is_approved=0, post__author_id=author_id).select_related('post')
+    appr_comments = Comments.objects.filter(is_approved=1, post__author_id=author_id).select_related('post')
+    # Create a list of dictionaries containing comment and post details
+    discomments_data = []
+    for discomment in disappr_comments:
+        discomments_data.append({
+            'pk': discomment.id,
+            'visitor_name': discomment.visitor_name,
+            'visitor_comment': discomment.visitor_comment,
+            'created_on': discomment.created_on,
+            'post_title': discomment.post.post_title,
+            'post_id': discomment.post.id,
+        })
+    comments_data = []
+    for comment in appr_comments:
+        comments_data.append({
+            'pk': comment.id,
+            'visitor_name': comment.visitor_name,
+            'visitor_comment': comment.visitor_comment,
+            'created_on': comment.created_on,
+            'post_title': comment.post.post_title,
+            'post_id': comment.post.id,
+        })
+    category = Category.objects.all()
+    srchform = SearchForm()
+    nlform = NewsletterForm()
+    context = {
+        "categories": category,
+        "srchform": srchform,
+        "nlform": nlform,
+        "discomments": discomments_data,
+        "comments": comments_data,
+    }
+    return render(request, "accounts/comments.html", context)
+
+@login_required
+def approve_post(request, pk):
+    comment = get_object_or_404(Comments, pk=pk)
+    comment.is_approved = True
+    comment.save()
+
+    return redirect('post_comments')
+
+@login_required
+def disapprove_post(request, pk):
+    comment = get_object_or_404(Comments, pk=pk)
+    comment.is_approved = False
+    comment.save()
+
+    return redirect('post_comments')

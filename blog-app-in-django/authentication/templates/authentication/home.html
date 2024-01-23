@@ -10,7 +10,7 @@
         <div class="list-group">
             <a href="{% url 'create_post' %}" class="list-group-item list-group-item-action">Write a blog post</a>
             <a href="{% url 'manage_posts' %}" class="list-group-item list-group-item-action">See your posts</a>
-            <a href="#" class="list-group-item list-group-item-action">Your visitors' comments (Approve | Reject)</a>
+            <a href="{% url 'post_comments' %}" class="list-group-item list-group-item-action">Your visitors' comments (Approve | Reject)</a>
             <a href="{% url 'logout' %}" class="list-group-item list-group-item-action">Logout</a>
         </div>
       </div>

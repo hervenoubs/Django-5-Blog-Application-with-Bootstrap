@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from .models import Post, Comments, Category, Contacts, Newsletter
 from .forms import CommentForm, ContactForm, NewsletterForm, SearchForm
 from django.contrib import messages
-from django.db.models import Count
+from django.db.models import Count, Q
 import random
 
 def blog_index(request):
@@ -26,7 +26,8 @@ def blog_index(request):
     else:
         nlform = NewsletterForm()
 
-    posts = Post.objects.filter(post_status=1).annotate(num_comments=Count('comments')).order_by('-created_on')
+    # posts = Post.objects.filter(post_status=1).annotate(num_comments=Count('comments')).order_by('-created_on')
+    posts = Post.objects.filter(post_status=1).annotate(num_comments=Count('comments', filter=Q(comments__is_approved=True))).order_by('-created_on')
     categories = Category.objects.all()
     context = {
         "posts": posts,
@@ -71,7 +72,7 @@ def blog_detail(request, pk):
         else:
             return render(request, 'blog_detail', {'form': form})
 
-    comments = Comments.objects.filter(post=post)
+    comments = Comments.objects.filter(post=post, is_approved=True)
     categories = Category.objects.all()
     srchform = SearchForm()
     num_comments = comments.count()

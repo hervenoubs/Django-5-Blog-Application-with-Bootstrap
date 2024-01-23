@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import user_registration, user_login, user_logout, home
-from accounts.views import create_post, manage_posts
+from accounts.views import create_post, manage_posts, approve_post
 
 urlpatterns = [
     path('registration/', user_registration, name='registration'),

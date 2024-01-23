@@ -44,6 +44,7 @@ class Comments(models.Model):
     visitor_email = models.EmailField(max_length=254, unique=True, default='')
     created_on = models.DateTimeField(auto_now_add=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    is_approved = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['created_on']

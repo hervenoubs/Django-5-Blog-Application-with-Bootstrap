@@ -1,0 +1,109 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}
+Visitors' comments
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row my-5">
+        <div class="col-md-12 bg-white p-5 rounded">
+        <div class="pull-right">
+            <a class="btn btn-primary" href="{% url 'home' %}"><i class="fa fa-arrow-left"></i> Back to home</a>
+        </div>
+
+        <h2 class="mb-4">Unapprove Comments</h2>
+        <table id="example" class="table table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Visitor name</th>
+                    <th>Visitor comment</th>
+                    <th>Visitor post</th>
+                    <th>Done on</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for comment in discomments %}
+                <tr>
+                    <td>{{ comment.visitor_name }}</td>
+                    <td>{{ comment.visitor_comment }}</td>
+                    <td>
+                        <a target="_new" href="{% url 'blog_detail' comment.post_id %}">
+                            {{ comment.post_title }}
+                        </a>
+                    </td>
+                    <td>{{ comment.created_on | date:'D d M Y' }}</td>
+                    <td>
+                        <form action="/approve-comment/{{ comment.pk }}/" method="post" onsubmit="return confirm('Are you sure you want to approve this comment?')">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-warning" title="Approve comment" data-bs-toggle="tooltip" data-bs-tooltip="Approve comment">
+                                Approve
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td>No comment found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row my-5">
+        <div class="col-md-12 bg-white p-5 rounded">
+        <div class="pull-right">
+            <a class="btn btn-primary" href="{% url 'home' %}"><i class="fa fa-arrow-left"></i> Back to home</a>
+        </div>
+
+        <h2 class="mb-4">Approve Comments</h2>
+        <table id="example2" class="table table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Visitor name</th>
+                    <th>Visitor comment</th>
+                    <th>Visitor post</th>
+                    <th>Done on</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for comment in comments %}
+                <tr>
+                    <td>{{ comment.visitor_name }}</td>
+                    <td>{{ comment.visitor_comment }}</td>
+                    <td>
+                        <a target="_new" href="{% url 'blog_detail' comment.post_id %}">
+                            {{ comment.post_title }}
+                        </a>
+                    </td>
+                    <td>{{ comment.created_on | date:'D d M Y' }}</td>
+                    <td>
+                        <form action="/disapprove-comment/{{ comment.pk }}/" method="post" onsubmit="return confirm('Are you sure you want to disapprove this comment?')">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger" title="Disapprove comment" data-bs-toggle="tooltip" data-bs-tooltip="Disapprove comment">
+                                Disapprove
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td>No comment found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        </div>
+    </div>
+  </div>
+
+{% endblock %}
