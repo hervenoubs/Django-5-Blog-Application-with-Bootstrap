@@ -10,7 +10,9 @@ This is blog application developed using Python with Django 5 for the backend an
 - Create, update, and delete blog posts
 - View a list of all blog posts with their number of comments
 - View each blog post including the comment section and sidebar at the right to see blog categories and recent posts
-- Blog posts category listings 
+- Blog posts category listings
+- Users can create a blogger account and publish their posts
+- Blogger can manage all their posts
 - About page
 - Contact Us page with its active contact form
 - Responsive design using Bootstrap
